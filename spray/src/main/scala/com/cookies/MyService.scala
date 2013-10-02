@@ -12,6 +12,7 @@ import net.liftweb.json.DefaultFormats
 import com.cookies.CookieDb._
 import spray.httpx.SprayJsonSupport._
 import CookieDb.MyCookieJsonProtocol._
+import spray.http.{StatusCodes, StatusCode}
 
 class MyServiceActor extends HttpServiceActor
   with SprayActorLogging
@@ -31,13 +32,13 @@ class MyServiceActor extends HttpServiceActor
       get { ctx =>
         myCookieActor ! GetCookies(ctx.responder)
       } ~
-      post { ctx =>
+      post {
         entity(as[Cookie]) { cookie =>
           complete {
-            myCookieActor ! AddCookie(ctx.responder, cookie)
+            myCookieActor ! AddCookieIgnore(cookie)
+            cookie
           }
         }
-
       }
     } ~
     //ping a particular session based on the path

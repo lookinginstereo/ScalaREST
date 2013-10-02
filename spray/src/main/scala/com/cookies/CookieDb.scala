@@ -1,9 +1,7 @@
 package com.cookies
 
-import spray.httpx.unmarshalling.{Unmarshaller, pimpHttpEntity}
-import spray.json.DefaultJsonProtocol._
-import spray.json._
-
+import spray.httpx.unmarshalling.pimpHttpEntity
+import spray.json.DefaultJsonProtocol
 import spray.httpx.marshalling._
 import spray.http._
 import HttpCharsets._
@@ -25,8 +23,12 @@ object CookieDb {
     idCounter += 1
   }
 
-  def removeCookie(id: Int): Cookie = {
-    allCookies.remove(allCookies.indexWhere(_.id == id))
+  def removeCookie(id: Int): Option[Cookie] = {
+    try {
+      Some(allCookies.remove(allCookies.indexWhere(_.id == id)))
+    } catch {
+      case _ : Throwable => None
+    }
   }
 
   //Store some cookies in the "DB"

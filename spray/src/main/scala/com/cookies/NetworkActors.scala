@@ -48,7 +48,17 @@ class CookieActor extends Actor with SprayActorLogging {
     case AddCookie(responder, cookie) =>
       CookieDb.addCookie(cookie)
       responder ! HttpResponse //default 200
-    //TODO Eat a cookie
+
+    case AddCookieIgnore(cookie) =>
+      CookieDb.addCookie(cookie)
+
+    case EatCookie(responder, id) =>
+      CookieDb.removeCookie(id) match {
+        case Some(cookie) =>
+          responder ! HttpResponse
+        case None =>
+          responder ! HttpResponse(status = StatusCodes.NotFound)
+      }
   }
 
 }
@@ -57,6 +67,7 @@ class CookieActor extends Actor with SprayActorLogging {
 object CookieActor {
 
   case class AddCookie(responder: ActorRef, cookie: Cookie)
+  case class AddCookieIgnore(cookie: Cookie)
 
   case class GetCookies(responder: ActorRef)
 
