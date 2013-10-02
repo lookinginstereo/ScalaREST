@@ -4,12 +4,18 @@ import akka.actor._
 
 import spray.routing._
 import spray.util.SprayActorLogging
-import spray.httpx.encoding.NoEncoding
-import spray.httpx.SprayJsonSupport._
-import spray.httpx.marshalling._
-import com.cookies.CookieDb.Cookie
 
-class MyServiceActor extends HttpServiceActor with SprayActorLogging {
+import spray.httpx.unmarshalling._
+import spray.httpx.marshalling._
+import spray.httpx._
+import net.liftweb.json.DefaultFormats
+import com.cookies.CookieDb._
+import spray.httpx.SprayJsonSupport._
+import CookieDb.MyCookieJsonProtocol._
+
+class MyServiceActor extends HttpServiceActor
+  with SprayActorLogging
+  with SprayJsonSupport {
 
   //set up the the child actor and return an ActorRef that you can
   //send messages to
@@ -17,6 +23,7 @@ class MyServiceActor extends HttpServiceActor with SprayActorLogging {
   //This imports the case classes for messages that are handled by their respective
   //actors
   import CookieActor._
+  //These imports handle spray-json
 
   def receive = runRoute {
     //explicitly ping a particular session

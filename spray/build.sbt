@@ -18,6 +18,7 @@ libraryDependencies ++= Seq(
   "io.spray"            %   "spray-util"    % "1.1-M8",
   "io.spray"            %   "spray-client"  % "1.1-M8",
   "io.spray"            %   "spray-testkit" % "1.1-M8",
+  "io.spray"            %%  "spray-json"    % "1.2.5",
   "org.slf4j"           %   "slf4j-api"     % "1.7.5",
   "com.typesafe.akka"   %%  "akka-actor"    % "2.1.4",
   "com.typesafe.akka"   %%  "akka-testkit"  % "2.1.4",

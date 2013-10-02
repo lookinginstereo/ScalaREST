@@ -48,14 +48,20 @@ class CookieActor extends Actor with SprayActorLogging {
     case AddCookie(responder, cookie) =>
       CookieDb.addCookie(cookie)
       responder ! HttpResponse //default 200
+    //TODO Eat a cookie
   }
 
 }
+
 //companion object containing messages handled
-object CookieActor{
+object CookieActor {
+
   case class AddCookie(responder: ActorRef, cookie: Cookie)
+
   case class GetCookies(responder: ActorRef)
+
   case class GetCookie(responder: ActorRef, id: Int)
+
   case class EatCookie(responder: ActorRef, id: Int)
 
 }
