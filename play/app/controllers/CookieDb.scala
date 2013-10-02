@@ -19,8 +19,13 @@ object CookieDb {
     idCounter += 1
   }
 
-  def removeCookie(id: Int): Cookie = {
-    allCookies.remove(allCookies.indexWhere(_.id == id))
+  def removeCookie(id: Int): Option[Cookie] = {
+    try{
+      Some(allCookies.remove(allCookies.indexWhere(_.id == id)))
+    } catch {
+      case _ =>
+        None
+    }
   }
 
   //Store some cookies in the "DB"

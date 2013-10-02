@@ -14,7 +14,7 @@ object Application extends Controller {
   }
 
   def getCookie(id: Int) = Action {
-    CookieDb.allCookies(id) match {
+    CookieDb.allCookies.find(_.id == id) match {
       case Some(cookie) =>
         val cookieJson = Json.toJson(cookie)
         Ok(cookieJson).withHeaders(CONTENT_TYPE -> "application/json")
@@ -36,8 +36,8 @@ object Application extends Controller {
   }
   def removeCookie(id: Int) = Action {
     CookieDb.removeCookie(id) match {
-      case Some(_) => Ok
-      case _ => InternalServerError
+      case None => NotFound
+      case _ => Ok
     }
   }
 
